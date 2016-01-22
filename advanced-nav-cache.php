@@ -95,14 +95,6 @@ if ( ! class_exists( 'Advanced_Nav_Cache' ) ) {
 		 *
 		 */
 		function __construct() {
-			// Specific to certain Memcached Object Cache plugins
-			if ( function_exists( 'wp_cache_add_group_prefix_map' ) ) {
-				wp_cache_add_group_prefix_map( NAV_CACHE_GROUP_PREFIX, 'advanced_nav_cache' );
-			}
-
-			if ( function_exists( 'wp_cache_add_global_groups' ) ) {
-				wp_cache_add_global_groups( array( 'cache_incrementors' ) );
-			}
 
 			$this->setup_for_blog();
 
@@ -171,6 +163,7 @@ if ( ! class_exists( 'Advanced_Nav_Cache' ) ) {
 		 * @return string
 		 */
 		public function pre_wp_nav_menu( $output, $args ) {
+			var_dump( 'pre_wp_nav_menu:' . $this->cache_group );
 			if ( $this->is_nav_cached_enabled( $args ) ) {
 				$cached_value = wp_cache_get( $this->get_key( $args ), $this->cache_group );
 				if ( false !== $cached_value ) {
@@ -188,6 +181,7 @@ if ( ! class_exists( 'Advanced_Nav_Cache' ) ) {
 		 * @return string
 		 */
 		public function wp_nav_menu( $output, $args ) {
+			var_dump( 'wp_nav_menu:' . $this->cache_group );
 			if ( $this->is_nav_cached_enabled( $args ) ) {
 				$cached_value = wp_cache_get( $this->get_key( $args ), $this->cache_group );
 				if ( false === $cached_value ) {
