@@ -163,6 +163,7 @@ if ( ! class_exists( 'Advanced_Nav_Cache' ) ) {
 		 * @return string
 		 */
 		public function pre_wp_nav_menu( $output, $args ) {
+			var_dump( $this->cache_group ); 
 			if ( $this->is_nav_cached_enabled( $args ) ) {
 				$cached_value = wp_cache_get( $this->get_key( $args ), $this->cache_group );
 				if ( false !== $cached_value ) {
